@@ -19,9 +19,13 @@
     const root = ReactDOM.createRoot(appDomElement);
 
     // Acá React renderizara todo como una cadena de texto, esto funciona asi para evitar que inyecten codigo malicioso
-    root.render('<button>Me gusta</button>');
+    // root.render('<button>Me gusta</button>');
 
+    // Para poder renderizar codigo HTML hay que crear el elemento con la funcion "createElement" la cual recibe 3 parametros: el primero es el elemento HTML, el segundo son las propiedades o atributos del elemento, en este caso un atributo data, y la tercera, es el texto que mostrara el elemento
+    const button = React.createElement('button', { "data-id": 123 }, 'Me gusta');
 
+    // Renderizado del elemento HTML
+    root.render( button );
 
   </script>
 </body>
