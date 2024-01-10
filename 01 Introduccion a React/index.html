@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+
+<body>
+  <div id="app"></div>
+
+  <script>
+
+    // Obtengo el div donde renderizare lo que haga con react
+    const appDomElement = document.getElementById('app');
+
+    const root = ReactDOM.createRoot(appDomElement);
+
+    // Acá React renderizara todo como una cadena de texto, esto funciona asi para evitar que inyecten codigo malicioso
+    root.render('<button>Me gusta</button>');
+
+
+
+  </script>
+</body>
+</html>
