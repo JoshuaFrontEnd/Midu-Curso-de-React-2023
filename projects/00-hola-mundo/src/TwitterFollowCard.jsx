@@ -1,6 +1,9 @@
 export const TwitterFollowCard = ({ formatUserName, userName, name, isFollowing }) => {
 
-  console.log( isFollowing );
+  const text = isFollowing ? 'Siguiendo' : 'Seguir';
+  const buttonClassName = isFollowing
+    ? 'tw-followCard-button is-following'
+    : 'tw-followCard-button';
 
   return (
     <article className="tw-followCard">
@@ -17,8 +20,8 @@ export const TwitterFollowCard = ({ formatUserName, userName, name, isFollowing 
       </header>
 
       <aside>
-        <button className="tw-followCard-button">
-          Seguir
+        <button className={ buttonClassName }>
+          { text }
         </button>
       </aside>
 

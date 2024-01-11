@@ -22,15 +22,15 @@ export const App = () => {
       <TwitterFollowCard
         formatUserName={ format }
         isFollowing={ false }
-        userName="eldiariodedross"
-        name="Dross"
+        userName="YouTube"
+        name="YouTube"
       />
 
       <TwitterFollowCard
         formatUserName={ format }
         isFollowing
-        userName="MikePortnoy"
-        name="Mike Portnoy"
+        userName="reactjs"
+        name="React"
       />
 
       <TwitterFollowCard { ...lastCompProps } />
