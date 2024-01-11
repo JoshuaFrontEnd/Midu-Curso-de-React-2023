@@ -7,28 +7,26 @@ export const App = () => {
   const format = ( userName ) => `@${ userName }`;
 
   // Otra forma de pasar las props, como un objeto y luego declararla en el componente con el operador "spread", esta forma no se recomienda, ya que la potencia de React esta en ser lo mas declarativo posible
-  const lastCompProps = { formatUserName: format, isFollowing: true, userName: "github", name: "GitHub" };
+  const lastCompProps = { formatUserName: format, userName: "github", name: "GitHub" };
 
   return (
     <section className='App'>
 
       <TwitterFollowCard
         formatUserName={ format }
-        isFollowing
+        initialIsFollowing={ true }
         userName="midudev"
         name="Miguel Ángel Durán"
       />
 
       <TwitterFollowCard
         formatUserName={ format }
-        isFollowing={ false }
         userName="YouTube"
         name="YouTube"
       />
 
       <TwitterFollowCard
         formatUserName={ format }
-        isFollowing
         userName="reactjs"
         name="React"
       />
