@@ -31,10 +31,12 @@ function App() {
   const updateBoard = ( index ) => {
 
     // Si el indice ya tiene algo no se actualiza esa posicion
+    // Acá se evalua, si el valor es "null" se considera "falsy" por lo tanto el espacio esta vacio y debe rellenarse, pero si el valor es un numero, se considera "truthy" asi que se termina la ejecucion de la funcion para no rellenarse, ya que existe un valor numerico en esa posicion
     if ( board[ index ] ) return;
 
     // Actualizar el tablero
     const newBoard = [...board];
+
     newBoard[ index ] = turn; // 'x' u 'o'
     setBoard( newBoard );
 
@@ -51,8 +53,7 @@ function App() {
       {/* Renderizo el array */}
       <section className="game">
         {
-          board.map( ( _, index ) => {
-
+          board.map( ( value, index ) => {
             return (
               <Square
                 key={ index }
@@ -62,7 +63,6 @@ function App() {
                 { board[ index ] }
               </Square>
             )
-
           })
         }
       </section>
