@@ -53,6 +53,7 @@ function App() {
       {/* Renderizo el array */}
       <section className="game">
         {
+          /* La funcion "map" de javascript toma en el callback tres parametros en un orden especifico: valor, indice, y el array original, por lo que aun cuando no se use el valor pero si quiero usar el indice, debo pasarle si o si el valor para poder despues declarar el indice. Seria distinto si solo quiero usar el valor, ahi no es necesario declarar el indice. Si quisiera usar el array original, debo declarar el valor y el indice, aun cuando no los use. Acá no estoy usando el array original, por lo que puedo omitirlo  */
           board.map( ( value, index ) => {
             return (
               <Square
