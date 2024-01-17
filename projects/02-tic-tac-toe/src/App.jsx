@@ -11,7 +11,7 @@ const Square = ({ children, isSelected, updateBoard, index }) => {
   const className = `square ${ isSelected ? 'is-selected' : '' }`;
 
   const handleClick = () => {
-    updateBoard();
+    updateBoard( index );
   }
 
   return (
@@ -28,7 +28,21 @@ function App() {
 
   const [ turn, setTurn ] = useState( TURNS.X );
 
-  const updateBoard = () => {}
+  const updateBoard = ( index ) => {
+
+    // Si el indice ya tiene algo no se actualiza esa posicion
+    if ( board[ index ] ) return;
+
+    // Actualizar el tablero
+    const newBoard = [...board];
+    newBoard[ index ] = turn; // 'x' u 'o'
+    setBoard( newBoard );
+
+    // Cambiar el turno
+    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
+    setTurn( newTurn );
+
+  }
 
   return (
     <main className="board">
@@ -45,7 +59,7 @@ function App() {
                 index={ index }
                 updateBoard={ updateBoard }
               >
-                { index }
+                { board[ index ] }
               </Square>
             )
 
