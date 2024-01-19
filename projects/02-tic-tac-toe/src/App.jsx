@@ -22,17 +22,56 @@ const Square = ({ children, isSelected, updateBoard, index }) => {
 
 }
 
+// Una forma de resolver quien gana el juego es mapear de manera literal todo el tablero y detectar las posibles combinaciones ganadoras:
+const WINNER_COMBOS = [
+  [ 0, 1, 2 ],
+  [ 3, 4, 5 ],
+  [ 6, 7, 8 ],
+  [ 0, 3, 6 ],
+  [ 1, 4, 7 ],
+  [ 2, 5, 8 ],
+  [ 0, 4, 8 ],
+  [ 2, 4, 6 ],
+]
+
 function App() {
 
   const [ board, setBoard ] = useState( Array( 9 ).fill( null ) );
 
   const [ turn, setTurn ] = useState( TURNS.X );
 
+  //Null no hay ganador, false es que hay un empate
+  const [ winner, setWinner ] = useState( null );
+
+  const checkWinner = ( boardToCkeck ) => {
+
+    for ( const combo of WINNER_COMBOS ) {
+
+      const [ a, b, c ] = combo;
+
+      // Reviso que en las tres pocisiones se encuentre el mismo simbolo
+      if (
+        // Detecto que simbolo existe en la posicion "a"
+        boardToCkeck[ a ] &&
+        // Luego comparo ese valor con lo que hay en la posicion "b"
+        boardToCkeck[ a ] === boardToCkeck[ b ] &&
+        // Si son iguales comparo el valor de la posicion "a" con lo que hay en "c"
+        boardToCkeck[ a ] === boardToCkeck[ c ] ) {
+          // si los tres valores de las diferentes posiciones son iguales, ya se que simbolo es el ganador y lo devuelvo
+          return boardToCkeck[ a ];
+      }
+
+    }
+    // Si no existe ganador retorno "null"
+    return null;
+  }
+
   const updateBoard = ( index ) => {
 
     // Si el indice ya tiene algo no se actualiza esa posicion
     // Acá se evalua, si el valor es "null" se considera "falsy" por lo tanto el espacio esta vacio y debe rellenarse, pero si el valor es un numero, se considera "truthy" asi que se termina la ejecucion de la funcion para no rellenarse, ya que existe un valor numerico en esa posicion
-    if ( board[ index ] ) return;
+    // Si existe un ganador el tablero se bloquea
+    if ( board[ index ] || winner ) return;
 
     // Actualizar el tablero
     const newBoard = [...board];
@@ -43,6 +82,22 @@ function App() {
     // Cambiar el turno
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
     setTurn( newTurn );
+
+    // Revisando si hay ganador
+    const newWinner = checkWinner( newBoard );
+
+    // Observacion sobre esta linea: React al actualizar el estado es asincrono, es decir, "setWinner" seteara el ganador en el estado, pero no detendra la ejecucion del codigo, por lo que cuando el alert intente ir a buscar el valor de "newWinner" leera el estado desfasado y no el estado actual. Cuando el componenente se vuelva a renderizar estara disponible el valor actualizado de "newWinner" para el alert
+    if ( newWinner ) {
+      setWinner( newWinner );
+      // alert(`El ganador es ${ newWinner }`);
+      // console.log( winner );
+
+      // Para poder obtener el valor de manera inmediata la funcion de seteo del Hook "useState" permite enviar un callback para obtener ese valor y el valor previo del estado, en este caso seria asi:
+      // setWinner( ( prevWinner ) => {
+      //   console.log(`Ganador: ${ newWinner }, el anterior era ${ prevWinner }`);
+      //   return newWinner;
+      // })
+    }
 
   }
 
@@ -76,6 +131,31 @@ function App() {
           { TURNS.O }
         </Square>
       </section>
+
+      {
+        winner !== null && (
+          <section className='winner'>
+            <div className="text">
+              <h2>
+                {
+                  winner === false
+                    ? 'Empate'
+                    : 'Ganó: '
+                }
+              </h2>
+
+              <header className="win">
+                { winner &&<Square>{ winner }</Square> }
+              </header>
+
+              <footer>
+                <button>Empezar de nuevo</button>
+              </footer>
+
+            </div>
+          </section>
+        )
+      }
 
     </main>
   )
