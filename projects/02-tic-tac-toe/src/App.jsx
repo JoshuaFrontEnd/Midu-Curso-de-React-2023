@@ -73,6 +73,13 @@ function App() {
     setWinner( null );
   }
 
+  // Revisando si hay un empate al finalizar el juego, esta funcion se llama si no se encuentra un ganador, por lo que mas que detectar literalmente un empate, detecta, despues de no encontrar un ganador, si el juego ha finalizado, entonces se da por hecho, que si no existe ganador y el juego ha terminado, esto debiese ser un empate
+  const checkEndGame = ( newBoard ) => {
+
+    // Si todos los valores de todas las posiciones del tablero son distintas de "null" el juego ha terminado
+    return newBoard.every( ( square ) => square !== null );
+  }
+
   const updateBoard = ( index ) => {
 
     // Si el indice ya tiene algo no se actualiza esa posicion
@@ -104,6 +111,9 @@ function App() {
       //   console.log(`Ganador: ${ newWinner }, el anterior era ${ prevWinner }`);
       //   return newWinner;
       // })
+    } else if ( checkEndGame( newBoard ) ) {
+      // Detectando si hay un empate
+      setWinner( false );
     }
 
   }
@@ -117,14 +127,14 @@ function App() {
       <section className="game">
         {
           /* La funcion "map" de javascript toma en el callback tres parametros en un orden especifico: valor, indice, y el array original, por lo que aun cuando no se use el valor pero si quiero usar el indice, debo pasarle si o si el valor para poder despues declarar el indice. Seria distinto si solo quiero usar el valor, ahi no es necesario declarar el indice. Si quisiera usar el array original, debo declarar el valor y el indice, aun cuando no los use. Acá no estoy usando el array original, por lo que puedo omitirlo  */
-          board.map( ( value, index ) => {
+          board.map( ( square, index ) => {
             return (
               <Square
                 key={ index }
                 index={ index }
                 updateBoard={ updateBoard }
               >
-                { board[ index ] }
+                { square }
               </Square>
             )
           })
