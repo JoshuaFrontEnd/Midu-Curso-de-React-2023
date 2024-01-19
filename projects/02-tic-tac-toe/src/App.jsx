@@ -66,6 +66,13 @@ function App() {
     return null;
   }
 
+  // En react para poder resetear los datos de una app basta con dejar el estado con sus valores iniciales, sin necesidad de recargar la pagina:
+  const resetGame = () => {
+    setBoard( Array( 9 ).fill( null ) );
+    setTurn( TURNS.X );
+    setWinner( null );
+  }
+
   const updateBoard = ( index ) => {
 
     // Si el indice ya tiene algo no se actualiza esa posicion
@@ -104,6 +111,7 @@ function App() {
   return (
     <main className="board">
       <h1>Tic tac toe</h1>
+      <button onClick={ resetGame }>Reset del juego</button>
 
       {/* Renderizo el array */}
       <section className="game">
@@ -149,7 +157,7 @@ function App() {
               </header>
 
               <footer>
-                <button>Empezar de nuevo</button>
+                <button onClick={ resetGame }>Empezar de nuevo</button>
               </footer>
 
             </div>
