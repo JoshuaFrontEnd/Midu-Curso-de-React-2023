@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import confetti from 'canvas-confetti'
 
 // Creando los turnos
 const TURNS = {
@@ -102,6 +103,7 @@ function App() {
 
     // Observacion sobre esta linea: React al actualizar el estado es asincrono, es decir, "setWinner" seteara el ganador en el estado, pero no detendra la ejecucion del codigo, por lo que cuando el alert intente ir a buscar el valor de "newWinner" leera el estado desfasado y no el estado actual. Cuando el componenente se vuelva a renderizar estara disponible el valor actualizado de "newWinner" para el alert
     if ( newWinner ) {
+      confetti();
       setWinner( newWinner );
       // alert(`El ganador es ${ newWinner }`);
       // console.log( winner );
