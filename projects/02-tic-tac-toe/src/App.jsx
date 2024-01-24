@@ -5,12 +5,32 @@ import { Square } from './components/Square';
 import { TURNS } from './constants';
 import { checkEndGame, checkWinnerFrom } from './logic/board';
 import { WinnerModal } from './components/WinnerModal';
+import { resetGameToStorage, saveGameToStorage } from './logic/storage';
 
 function App() {
 
-  const [ board, setBoard ] = useState( Array( 9 ).fill( null ) );
+  // console.log('render');
 
-  const [ turn, setTurn ] = useState( TURNS.X );
+  // En React no se pueden usar los Hooks dentro de un ciclo o condicion ( If, While, For, etc...) porque React guarda la posicion de cada hook en memoria para poder ejecutarlos siempre en el mismo orden, asi se asegura de que el estado se ha actualizado de manera correcta, si se aplica una condicion o ciclo, estos podrian ejecutarse en otro orden, causando inconsistencias en el estado y problemas en el renderizado. La manera correcta de utilizar un Hook es en el cuerpo del componente
+  const [ board, setBoard ] = useState(() => {
+
+    // console.log('Inicializando el estado');
+
+    // Obtengo el valor guardado en el localStorage, esto se setea aca, porque si seteara antes del hook, React lo rendezaria cada vez que cargue el componente de manera innecesaria, haciendo lenta la app
+    const boardFromStorage = window.localStorage.getItem('board');
+
+    // Si hay un valor en el localStorage seteo ese en el estado, si no, seteo el estado con el arreglo de valores "null"
+    return boardFromStorage ? JSON.parse( boardFromStorage ) : Array( 9 ).fill( null );
+
+  });
+
+  const [ turn, setTurn ] = useState(() => {
+
+    const turnFromStorage = window.localStorage.getItem( 'turn');
+
+    // El doble ?? ( operador de fusión nula o en ingles nullish coalescing operator ) detecta si el primer valor es null o undefined, si no lo es retorna ese valor, si lo es retorna el segundo
+    return turnFromStorage ?? TURNS.X;
+  });
 
   //Null no hay ganador, false es que hay un empate
   const [ winner, setWinner ] = useState( null );
@@ -20,6 +40,9 @@ function App() {
     setBoard( Array( 9 ).fill( null ) );
     setTurn( TURNS.X );
     setWinner( null );
+
+    resetGameToStorage();
+
   }
 
   const updateBoard = ( index ) => {
@@ -38,6 +61,12 @@ function App() {
     // Cambiar el turno
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
     setTurn( newTurn );
+
+    // Guardar la partida
+    saveGameToStorage({
+      board: newBoard,
+      turn: newTurn
+    });
 
     // Revisando si hay ganador
     const newWinner = checkWinnerFrom( newBoard );
