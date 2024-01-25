@@ -1,10 +1,9 @@
-import './App.css';
-import { TwitterFollowCard } from './TwitterFollowCard';
+import './App.css'
+import { TwitterFollowCard } from './TwitterFollowCard'
 
 export const App = () => {
-
-  //Pasando una funcion como Prop ( Pasar una funcion como parametro), funcion que agrega un @ al nombre de usuario
-  const format = ( userName ) => `@${ userName }`;
+  // Pasando una funcion como Prop ( Pasar una funcion como parametro), funcion que agrega un @ al nombre de usuario
+  const format = (userName) => `@${userName}`
 
   // Otra forma de pasar las props, como un objeto y luego declararla en el componente con el operador "spread", esta forma no se recomienda, ya que la potencia de React esta en ser lo mas declarativo posible
   // const lastCompProps = { formatUserName: format, userName: "github", name: "GitHub" };
@@ -82,14 +81,14 @@ export const App = () => {
         // })
 
         /* Refactorizacion ( optimización ) del codigo anterior */
-        users.map( ({ userName, name, isFollowing }) => (
+        users.map(({ userName, name, isFollowing }) => (
 
           <TwitterFollowCard
-            key={ userName }
-            formatUserName={ format }
-            userName={ userName }
-            name={ name }
-            initialIsFollowing={ isFollowing }
+            key={userName}
+            formatUserName={format}
+            userName={userName}
+            name={name}
+            initialIsFollowing={isFollowing}
           />
 
         ))
