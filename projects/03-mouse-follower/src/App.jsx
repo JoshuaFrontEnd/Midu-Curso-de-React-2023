@@ -7,6 +7,8 @@ const FollowMouse = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 })
 
   // useEffect es un Hook que nos permite ejecutar codigo arbitrario cuando un componente se "monta" en el DOM y cada vez que cambien las dependencias que nosotros configuremos
+
+  // Pointer move
   useEffect(() => {
     // Acá se va a ejecutar el log, cuando el componente se monte en el DOM
     console.log('effect: ', { enabled })
@@ -32,6 +34,14 @@ const FollowMouse = () => {
     // donde "window" es el elemento al que queremos consultar sus listeners
 
     // Y se volvera a ejecutar cada vez que el valor de la dependencia "enabled" cambie, si queremos que el log se ejecute solo cuando se monte el componente, hay que declarar la dependencia de cambio con un arreglo vacio []
+  }, [enabled])
+
+  useEffect(() => {
+    document.body.classList.toggle('no-cursor', enabled)
+
+    return () => {
+      document.body.classList.remove('no-cursor')
+    }
   }, [enabled])
 
   return (
