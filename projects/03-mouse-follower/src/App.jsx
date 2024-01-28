@@ -21,6 +21,16 @@ function App () {
       window.addEventListener('pointermove', handleMove)
     }
 
+    // El return sirve para "limpiar/remover" los eventos que se hayan agregado en el useEffect, si no se "limpian/remueven" los eventos, estos no pararian de agregarse causando problemas de rendimiento
+    return () => {
+      console.log('cleanUp')
+      window.removeEventListener('pointermove', handleMove)
+    }
+
+    // Truco para detectar los listeners que se añadieron al DOM (solo en chromium)
+    // getEventListeners(window)
+    // donde "window" es el elemento al que queremos consultar sus listeners
+
     // Y se volvera a ejecutar cada vez que el valor de la dependencia "enabled" cambie, si queremos que el log se ejecute solo cuando se monte el componente, hay que declarar la dependencia de cambio con un arreglo vacio []
   }, [enabled])
 
