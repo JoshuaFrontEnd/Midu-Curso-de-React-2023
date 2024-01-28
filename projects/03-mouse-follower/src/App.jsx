@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function App () {
+const FollowMouse = () => {
   const [enabled, setEnabled] = useState(false)
 
   // Seteando el estado la posicion inicial del cursor en 0
@@ -35,7 +35,7 @@ function App () {
   }, [enabled])
 
   return (
-    <main>
+    <>
       <div style={{
         position: 'absolute',
         backgroundColor: '#00F',
@@ -52,6 +52,14 @@ function App () {
       <button onClick={() => setEnabled(!enabled)}>
         {enabled ? 'Desactivar' : 'Activar'} seguir puntero
       </button>
+    </>
+  )
+}
+
+function App () {
+  return (
+    <main>
+      <FollowMouse />
     </main>
   )
 }
