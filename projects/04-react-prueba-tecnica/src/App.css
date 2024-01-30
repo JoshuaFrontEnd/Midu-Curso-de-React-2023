@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+}
+
+.appCatMain {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 8px 8px;
+  font-family: system-ui;
+  text-align: center;
+}
+
+.appCatMain_section_img {
+  max-width: 100%;
+  display: block;
+  margin: auto;
+  height: auto;
+}
+
+@media ( min-width: 1024px ) {
+
+  .appCatMain {
+    text-align: left;
+  }
+
+  .appCatMain_section {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .appCatMain_section_imgcont {
+    max-width: 320px;
+    width: 100%;
+  }
+
+}
