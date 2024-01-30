@@ -9,30 +9,31 @@ export const App = () => {
   const [fact, setFact] = useState()
   const [imageUrl, setImageUrl] = useState()
 
-  // No puedes usar React Query, SWR, axios, apollo, etc
+  // Para recuperar la cita al cargar la pagina
   useEffect(() => {
     fetch(CAT_ENDPOINT_RANDOM_FACT)
       .then(res => res.json())
       .then(data => {
         const { fact } = data
         setFact(fact)
-
-        console.log(fact)
-
-        // Recuperar la primera palabra del hecho
-        const firstWord = fact.split(' ')[0]
-        console.log(firstWord)
-
-        // Muestra una imagen de un gato con la primera palabra del hecho
-        fetch(`https://cataas.com/cat/says/${firstWord}?json=true`)
-          .then(res => res.json())
-          .then(data => {
-            const { _id } = data
-            console.log(_id)
-            setImageUrl(`${_id}/says/${firstWord}?fontSize=50&fontColor=white`)
-          })
       })
   }, [])
+
+  // Para recuperar la imagen cada vez que tenemos una cita nueva
+  useEffect(() => {
+    if (!fact) return
+
+    // Recuperar la primera palabra del hecho
+    const firstWord = fact.split(' ')[0]
+
+    // Muestra una imagen de un gato con la primera palabra del hecho
+    fetch(`https://cataas.com/cat/says/${firstWord}?json=true`)
+      .then(res => res.json())
+      .then(data => {
+        const { _id } = data
+        setImageUrl(`${_id}/says/${firstWord}?fontSize=50&fontColor=white`)
+      })
+  }, [fact])
 
   return (
     <main className='appCatMain'>
