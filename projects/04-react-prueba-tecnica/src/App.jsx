@@ -6,11 +6,20 @@ const CAT_ENDPOINT_RANDOM_FACT = 'https://catfact.ninja/fact'
 export const App = () => {
   const [fact, setFact] = useState()
 
-  // No puedes usar React Quer, SWR, axios, apollo, etc
+  // No puedes usar React Query, SWR, axios, apollo, etc
   useEffect(() => {
     fetch(CAT_ENDPOINT_RANDOM_FACT)
       .then(res => res.json())
-      .then(data => setFact(data.fact))
+      .then(data => {
+        const { fact } = data
+        setFact(fact)
+
+        console.log(fact)
+
+        // Recuperar la primera palabra del hecho
+        const firstWord = fact.split(' ')[0]
+        console.log(firstWord)
+      })
   }, [])
 
   return (
