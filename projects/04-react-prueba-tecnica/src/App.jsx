@@ -9,15 +9,17 @@ export const App = () => {
   const [fact, setFact] = useState()
   const [imageUrl, setImageUrl] = useState()
 
-  // Para recuperar la cita al cargar la pagina
-  useEffect(() => {
+  const getRandomFact = () => {
     fetch(CAT_ENDPOINT_RANDOM_FACT)
       .then(res => res.json())
       .then(data => {
         const { fact } = data
         setFact(fact)
       })
-  }, [])
+  }
+
+  // Para recuperar la cita al cargar la pagina
+  useEffect(getRandomFact, [])
 
   // Para recuperar la imagen cada vez que tenemos una cita nueva
   useEffect(() => {
@@ -35,9 +37,17 @@ export const App = () => {
       })
   }, [fact])
 
+  const handleClick = () => {
+    getRandomFact()
+  }
+
   return (
     <main className='appCatMain'>
+
       <h1>App de gatitos</h1>
+
+      <button onClick={handleClick} className='appCatMainButton_newData'>Obtener nuevos datos</button>
+
       <section className='appCatMain_section'>
         {fact && <p>{fact}</p>}
         <div className='appCatMain_section_imgcont'>
