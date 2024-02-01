@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useCatImage } from './hooks/useCatImage'
 import './App.css'
 import { getRandomFact } from './services/facts'
 
@@ -6,28 +7,13 @@ const CAT_PREFIX_IMAGE_URL = 'https://cataas.com/cat/'
 
 export const App = () => {
   const [fact, setFact] = useState()
-  const [imageUrl, setImageUrl] = useState()
+
+  const { imageUrl } = useCatImage({ fact })
 
   // Para recuperar la cita al cargar la pagina
   useEffect(() => {
     getRandomFact().then(newFact => setFact(newFact))
   }, [])
-
-  // Para recuperar la imagen cada vez que tenemos una cita nueva
-  useEffect(() => {
-    if (!fact) return
-
-    // Recuperar la primera palabra del hecho
-    const firstWord = fact.split(' ')[0]
-
-    // Muestra una imagen de un gato con la primera palabra del hecho
-    fetch(`https://cataas.com/cat/says/${firstWord}?json=true`)
-      .then(res => res.json())
-      .then(data => {
-        const { _id } = data
-        setImageUrl(`${_id}/says/${firstWord}?fontSize=50&fontColor=white`)
-      })
-  }, [fact])
 
   // Esto esta mal, si bien funcionara, nunca se debe pasar el "setState" fuera del componente
   // const handleClick = () => {
