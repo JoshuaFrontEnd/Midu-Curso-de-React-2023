@@ -1,25 +1,17 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import { getRandomFact } from './services/facts'
 
-const CAT_ENDPOINT_RANDOM_FACT = 'https://catfact.ninja/fact'
-// const CAT_ENDPOINT_IMAGE_URL = `https://cataas.com/cat/says/${firstWord}?fontSize=50&fontColor=red&json=true`
 const CAT_PREFIX_IMAGE_URL = 'https://cataas.com/cat/'
 
 export const App = () => {
   const [fact, setFact] = useState()
   const [imageUrl, setImageUrl] = useState()
 
-  const getRandomFact = () => {
-    fetch(CAT_ENDPOINT_RANDOM_FACT)
-      .then(res => res.json())
-      .then(data => {
-        const { fact } = data
-        setFact(fact)
-      })
-  }
-
   // Para recuperar la cita al cargar la pagina
-  useEffect(getRandomFact, [])
+  useEffect(() => {
+    getRandomFact().then(newFact => setFact(newFact))
+  }, [])
 
   // Para recuperar la imagen cada vez que tenemos una cita nueva
   useEffect(() => {
@@ -37,8 +29,14 @@ export const App = () => {
       })
   }, [fact])
 
-  const handleClick = () => {
-    getRandomFact()
+  // Esto esta mal, si bien funcionara, nunca se debe pasar el "setState" fuera del componente
+  // const handleClick = () => {
+  //   getRandomFact(setFact)
+  // }
+
+  const handleClick = async () => {
+    const newFact = await getRandomFact()
+    setFact(newFact)
   }
 
   return (
