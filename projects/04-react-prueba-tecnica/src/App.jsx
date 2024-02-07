@@ -1,7 +1,6 @@
 import { useCatImage } from './hooks/useCatImage'
 import './App.css'
 import { useCatFact } from './hooks/useCatFact'
-import { Otro } from './Components/Otro'
 
 export const App = () => {
   const { fact, refreshFact } = useCatFact()
@@ -27,8 +26,6 @@ export const App = () => {
         {fact && <p>{fact}</p>}
         <div className='appCatMain_section_imgcont'>
           {imageUrl && <img className='appCatMain_section_img' src={imageUrl} alt='Imagen generada usando la primera palabra de un hecho desde https://cataas.com' />}
-
-          <Otro />
         </div>
       </section>
     </main>
