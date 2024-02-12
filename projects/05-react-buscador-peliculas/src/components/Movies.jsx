@@ -2,6 +2,7 @@ function ListOfMovies ({movies}) {
   return (
     <ul>
       {
+        // Al parsear el JSON de esta manera estamos "atando" la estructura de la data a la UI, para evitar esto podemos "mapear" los datos del JSON en variables, solucion en el siguiente commit
         movies.map( movie => (
           <li key={ movie.imdbID }>
             <h3>{movie.Title}</h3>
