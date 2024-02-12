@@ -2,12 +2,12 @@ function ListOfMovies ({movies}) {
   return (
     <ul>
       {
-        // Al parsear el JSON de esta manera estamos "atando" la estructura de la data a la UI, para evitar esto podemos "mapear" los datos del JSON en variables, solucion en el siguiente commit
+        // Parseando los datos de la API pero ocupando el mapeo en vez de la estructura literal del JSON, de esta manera si cambia esa estructura el cambio se hara solo en el mapeo y no en cada componente
         movies.map( movie => (
-          <li key={ movie.imdbID }>
-            <h3>{movie.Title}</h3>
-            <p>{movie.Year}</p>
-            <img src={movie.Poster} alt={movie.Title} />
+          <li key={ movie.id }>
+            <h3>{movie.title}</h3>
+            <p>{movie.year}</p>
+            <img src={movie.poster} alt={movie.title} />
           </li>
         ))
       }
