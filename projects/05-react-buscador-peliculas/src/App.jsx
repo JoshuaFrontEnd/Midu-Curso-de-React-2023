@@ -1,12 +1,13 @@
 import './App.css'
+import { useState, useEffect } from 'react';
 import { useMovies } from './hooks/useMovies'
-import { useState } from 'react';
 import { Movies } from './components/Movies'
 
 function App() {
 
   const { movies } = useMovies();
   const [query, setQuery] = useState('')
+  const [error, setError] = useState(null)
 
   // Cada vez que cambia el input, se esta renderizando el componente
   console.log('render');
@@ -14,12 +15,34 @@ function App() {
   const handleSubmit = ( event ) => {
     event.preventDefault()
     console.log({ query })
-
   }
 
   const handleChange = ( event ) => {
     setQuery( event.target.value )
   }
+
+  // Validando con useEffect
+  useEffect(() => {
+
+    if ( query === '' ) {
+      setError('No se puede buscar una película vacia')
+      return
+    }
+
+    if ( query.match(/^\d+$/) ) {
+      setError('No se puede buscar una película con un número')
+      return
+    }
+
+    if ( query.length < 3 ) {
+      setError('La búsqueda debe tener al menos 3 caracteres')
+      return
+    }
+
+    setError( null )
+
+  }, [query])
+
 
   return (
     <div className='page'>
@@ -30,6 +53,7 @@ function App() {
           <input onChange={ handleChange } value={ query } name='query' placeholder='Avengers, Star Wars, The Matrix...' />
           <button type='submit'>Buscar</button>
         </form>
+        { error && <p style={{ color: 'red' }}>{ error }</p>}
       </header>
 
       <main>
