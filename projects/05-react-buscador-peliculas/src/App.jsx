@@ -1,25 +1,24 @@
 import './App.css'
 import { useMovies } from './hooks/useMovies'
+import { useState } from 'react';
 import { Movies } from './components/Movies'
 
 function App() {
 
   const { movies } = useMovies();
+  const [query, setQuery] = useState('')
+
+  // Cada vez que cambia el input, se esta renderizando el componente
+  console.log('render');
 
   const handleSubmit = ( event ) => {
     event.preventDefault()
+    console.log({ query })
 
-    // Un input especifico
-    // const fields = new FormData( event.target )
-    // const query = fields.get('query')
-    // console.log( query )
+  }
 
-    // Multiples inputs
-    const fields = Object.fromEntries(
-      new FormData( event.target )
-    )
-    console.log( fields )
-
+  const handleChange = ( event ) => {
+    setQuery( event.target.value )
   }
 
   return (
@@ -28,7 +27,7 @@ function App() {
       <header>
         <h1>Buscador de películas</h1>
         <form className='form' onSubmit={ handleSubmit }>
-          <input name='query' placeholder='Avengers, Star Wars, The Matrix...' />
+          <input onChange={ handleChange } value={ query } name='query' placeholder='Avengers, Star Wars, The Matrix...' />
           <button type='submit'>Buscar</button>
         </form>
       </header>
