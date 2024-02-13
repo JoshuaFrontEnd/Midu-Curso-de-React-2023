@@ -1,16 +1,29 @@
 import './App.css'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useMovies } from './hooks/useMovies'
 import { Movies } from './components/Movies'
 
 function useSearch() {
   const [search, updateSearch] = useState('')
   const [error, setError] = useState(null)
+  const isFirstInputRender = useRef(true)
 
   useEffect(() => {
 
+    /* ----------------------------------------------------------------
+      Usando useRef para detectar el primer valor del input search
+
+      - Siempre la primera vez el valor de "search" sera una cadena vacia (''), por lo tanto el valor de "isFirstInputRender" sera de "true" y no se ejecutaran las validaciones siguientes
+      - Cuando se ingrese un dato en el input, el valor de "search" ya no sera una cadena vacia, por lo tanto el valor de "isFirstInputRender" sera de false y se ejecuraran las validaciones siguientes
+    ---------------------------------------------------------------- */
+    if ( isFirstInputRender.current ) {
+      // Si el valor de "search" es una cadena vacia ('') el valor de "isFirstInputRender" sera de "true" de lo contrario sera "false"
+      isFirstInputRender.current = search === ''
+      return
+    }
+
     if ( search === '' ) {
-      setError('No se puede buscar una película vacia')
+      setError('No se puede buscar una película vacía')
       return
     }
 
