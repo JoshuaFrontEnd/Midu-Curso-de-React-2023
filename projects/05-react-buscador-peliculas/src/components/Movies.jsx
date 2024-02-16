@@ -1,10 +1,10 @@
 function ListOfMovies ({movies}) {
   return (
-    <ul>
+    <ul className="movies">
       {
         // Parseando los datos de la API pero ocupando el mapeo en vez de la estructura literal del JSON, de esta manera si cambia esa estructura el cambio se hara solo en el mapeo y no en cada componente
         movies.map( movie => (
-          <li key={ movie.id }>
+          <li className="movie" key={ movie.id }>
             <h3>{movie.title}</h3>
             <p>{movie.year}</p>
             <img src={movie.image} alt={movie.title} />
