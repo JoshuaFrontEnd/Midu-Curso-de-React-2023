@@ -1,35 +1,30 @@
 import { useState } from 'react'
-import withResults from '../mocks/with-results.json'
-import withoutResults from '../mocks/no-results.json'
+import { searchMovies } from '../services/movies'
 
 export function useMovies({ search }) {
 
-  const [responseMovies, setResponseMovies] = useState([])
+  const [movies, setMovies] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  const movies = responseMovies.Search
+  const getMovies = async () => {
+    const newMovies = await searchMovies({ search })
+    setMovies(newMovies)
 
-  // Mapeando los datos de la API en caso de que en el futuro cambien los nombres de los datos, al hacerlo de esta manera, evitamos cambiar los nombres en todos los componentes que usen la estructura literal del JSON y solo los cambiamos desde acá
-  const mappedMovies = movies?.map( movie => ({
-    id: movie.imdbID,
-    title: movie.Title,
-    year: movie.Year,
-    image: movie.Poster
-  }))
-
-  const getMovies = () => {
-    if ( search ) {
-      // setResponseMovies( withResults )
-      fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=4a5c581a&s=${search}`)
-        .then( res => res.json() )
-        .then( json => {
-          setResponseMovies( json )
-        })
-
-    } else {
-      setResponseMovies( withoutResults)
+    try {
+      setLoading(true)
+      setError(null)
+      const newMovies = await searchMovies({ search })
+      setMovies(newMovies)
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      // Tanto en el try como en el catch
+      setLoading(false)
     }
+
   }
 
-  return { movies: mappedMovies, getMovies }
+  return { movies, loading, getMovies }
 
 }
