@@ -8,8 +8,6 @@ export function useMovies({ search }) {
   const [error, setError] = useState(null)
 
   const getMovies = async () => {
-    const newMovies = await searchMovies({ search })
-    setMovies(newMovies)
 
     try {
       setLoading(true)
