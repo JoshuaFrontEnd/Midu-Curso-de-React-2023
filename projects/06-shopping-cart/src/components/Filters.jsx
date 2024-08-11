@@ -1,15 +1,14 @@
-import { useState } from 'react'
+import { useId } from 'react'
 import './Filters.css'
+import { useFilters } from '../hooks/useFilters'
 
-export const Filters = ({ setFilters }) => {
+export const Filters = () => {
 
-  // Seteando el estado del rango
-  const [ minPrice, setMinPrice ] = useState(0)
+  const { filters, setFilters } = useFilters()
+  const minPriceFilterId = useId()
+  const categoryFilterId = useId()
 
-  // Aquí hay un error a pesar de que este funcionando, porque estamos pasando la funcion de actualizar estado a un componente hijo
   const handleChangeMinPrice = ( event ) => {
-
-    setMinPrice( event.target.value )
 
     setFilters( prevState => ({
       ...prevState,
@@ -29,20 +28,21 @@ export const Filters = ({ setFilters }) => {
     <section className='filters'>
 
       <div>
-        <label htmlFor='price'>Precio</label>
+        <label htmlFor={ minPriceFilterId }>Precio</label>
         <input
           type='range'
-          id='price'
+          id={ minPriceFilterId }
           min='0'
           max='1000'
           onChange={ handleChangeMinPrice }
+          value={ filters.minPrice }
         />
-        <span>${ minPrice }</span>
+        <span>${ filters.minPrice }</span>
       </div>
 
       <div>
-        <label htmlFor='category'>Categoría</label>
-        <select id='category' onChange={ handleChangeCategory }>
+        <label htmlFor={ categoryFilterId }>Categoría</label>
+        <select id={ categoryFilterId } onChange={ handleChangeCategory }>
           <option value='all'>Todas</option>
           <option value='laptops'>Portátiles</option>
           <option value='smartphones'>Celulares</option>

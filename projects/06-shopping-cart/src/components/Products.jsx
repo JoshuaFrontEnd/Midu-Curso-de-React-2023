@@ -1,20 +1,29 @@
+import { useFilters } from '../hooks/useFilters'
+import { products as initialProducts } from '../mocks/products'
 import { AddToCartIcon } from './Icons'
 
 import './Products.css'
+import { useState } from 'react'
 
-export const Products = ({ products }) => {
+export const Products = () => {
+
+  const [ products ] = useState( initialProducts )
+  const { filterProducts } = useFilters()
+  const filteredProducts = filterProducts( products )
+
   return (
     <main className='products'>
       <ul>
         {
-          products.map((product) => (
-            <li key={ product.id }>
+          // filteredProducts.map( ( product ) => (
+          filteredProducts.map(( { id, thumbnail, title, price }) => (
+            <li key={ id }>
               <img
-                src={ product.thumbnail }
-                alt={ product.title }
+                src={ thumbnail }
+                alt={ title }
               />
               <div>
-                <strong>{ product.title }</strong> - ${ product.price }
+                <strong>{ title }</strong> - ${ price }
               </div>
               <div>
                 <button>
